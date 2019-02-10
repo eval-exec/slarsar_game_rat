@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <ncurses.h>
+#include <time.h>
+char input_char;
+int rat_num;
+int input_num;
+void help_game();
+void start_select();
+void start_game();
+void printtt();
+int select;
+char a[9]={' '};
+int main()
+{	
+	initscr();			/* Start curses mode 		  */
+	start_select();
+	if (select==1) start_game();
+	if (select==2) help_game();
+	if (select==3) endwin();
+	return 0;
+}
+
+void start_select(){
+	printw("please select number :\n");
+	printw("1 : start game\n");
+	printw("2 : game help \n");
+	printw("3 : quit game \n");
+	char csel;
+	csel=getch();
+	select = (int)csel;
+
+}
+
+void help_game(){
+	printw("when the rat appears , hit keyboard in '2' seconds!,then the rat get hurt");
+	printw("Hit ANY key to exit help");	
+	getchar();
+	start_select();
+}
+
+void start_game(){
+	initscr();
+	while(input_char != 'q')
+	{
+		srand(time(NULL));
+		rat_num=rand()%9;
+		a[rat_num] = 'X';
+		printtt();
+		input_char=getch();
+		input_num = (int)input_char;
+		if (rat_num==input_num){
+			a[rat_num]=' ';
+		};
+		printtt();	
+	
+	}
+}
+void printtt(){
+	printw("|%s|%s|%s|\n",a[0],a[1],a[2]);
+	printw("|%s|%s|%s|\n",a[3],a[4],a[5]);
+	printw("|%s|%s|%s|\n",a[6],a[7],a[8]);
+
+}
